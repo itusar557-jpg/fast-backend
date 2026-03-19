@@ -1,104 +1,72 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const fs = require('fs');
-const { isUtf8 } = require('buffer');
-const { time } = require('console');
-app.set('view engine', 'ejs')
-app.set(express.static(path.join(__dirname,"public")))
 const mongoose = require('mongoose');
-const { title } = require('process');
-mongoose.connect('mongodb://127.0.0.1:27017/myTextApp')
-const userSchema = mongoose.Schema({
 
-})
+// ভিউ ইঞ্জিন এবং স্ট্যাটিক পাথ সেটআপ
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, "public"))); // app.use হবে
+
+// ডাটাবেস কানেকশন (লিঙ্কের শুরুর বাড়তি স্পেস সরিয়ে দিয়েছি)
+mongoose.connect('mongodb+srv://itusar557_db_user:1Z5DtaWAmqGPMRIu@cluster0.onvpark.mongodb.net/myTextApp')
+  .then(() => console.log("Success: MongoDB Connected!"))
+  .catch(err => console.log("DB Error:", err.message));
+
+// মডেল সেটআপ
 const postSchema = mongoose.Schema({
   title: String,
   discription: String,
-  
-})
-const userModiul = mongoose.model('user' , userSchema)
-const postModiul = mongoose.model('post' , postSchema)
+});
+const postModiul = mongoose.model('post', postSchema);
 
-app.use(express.json()); // JSON data parse করার জন্য
-app.use(express.urlencoded({ extended: true })); // form data parse করার জন্য
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// --- রাউটসমূহ ---
 
-app.get("/", async (req , res)=>{
-   let postData = await postModiul.find({})
- 
-  
-    res.render('index', {file: postData})
-  
-}) 
+app.get("/", async (req, res) => {
+    let postData = await postModiul.find({});
+    res.render('index', { file: postData });
+});
 
-app.get("/create", async (req , res)=>{
-    res.render('create', )
-  
-})
-app.post('/save', async (req, res)=>{
- 
- await postModiul.create({
-    title : req.body.title,
-    discription : req.body.content,
-  })
- 
-  res.redirect('/')
-})
-app.get('/view/:id', async (req,res)=>{ 
-  let ridfile = await postModiul.findById(req.params.id)
-   res.render('ditels',{filename: ridfile})
-})
-app.get('/edit/:id', async (req ,res)=>{
-  let idobj = await postModiul.findById(req.params.id)
-  res.render('edit' ,{idobj})
+app.get("/create", async (req, res) => {
+    res.render('create');
+});
 
+app.post('/save', async (req, res) => {
+    await postModiul.create({
+        title: req.body.title,
+        discription: req.body.content,
+    });
+    res.redirect('/');
+});
 
-})
-app.post('/edits/:id', async (req, res)=>{
-   await postModiul.findByIdAndUpdate(req.params.id , {title: req.body.title})
- res.redirect('/')
+app.get('/view/:id', async (req, res) => {
+    let ridfile = await postModiul.findById(req.params.id);
+    res.render('ditels', { filename: ridfile });
+});
 
-  
-})
-app.get('/delete/:id', async (req,res)=>{
-  let id = await postModiul.findByIdAndDelete(req.params.id)
-    res.redirect('/')
+app.get('/edit/:id', async (req, res) => {
+    let idobj = await postModiul.findById(req.params.id);
+    res.render('edit', { idobj });
+});
 
- 
-})
-app.get(`/Editfile/:filename`,(req,res)=>{
-  fs.readFile(`./data/${req.params.filename}`,'utf-8',(err,file)=>{
-    res.render('editfile',{
-      fileName : req.params.filename,
-      file:file
-    })
-    
-  })
-})
-app.post('/saveus',(req,res)=>{
-  fs.writeFile(`./data/${req.body.title}`,`${req.body.content}`,()=>{
-    res.redirect('/')
-  })
- 
-})
-app.get("/Rdd", (req , res)=>{
-  fs.readdir('./rd',(err,file)=>{
-    let mat = Math.floor(Math.random()*file.length);
-    fs.readFile(`./rd/${file[mat]}`,'utf-8',(err,filev)=>{
-        fs.readdir('./data',(err,gfile)=>{
-          res.render('indexx',{txtfile:filev,file:gfile}) 
-  
-        })
-        
-      })
-      
-      
-    })
+app.post('/edits/:id', async (req, res) => {
+    // এখানে title এর সাথে discription ও আপডেট করা ভালো
+    await postModiul.findByIdAndUpdate(req.params.id, { 
+        title: req.body.title,
+        discription: req.body.content 
+    });
+    res.redirect('/');
+});
 
-   
+app.get('/delete/:id', async (req, res) => {
+    await postModiul.findByIdAndDelete(req.params.id);
+    res.redirect('/');
+});
 
-     
-})
-
-app.listen(3000)
+// --- লিসেনার (Render এর জন্য পরিবর্তন করা হয়েছে) ---
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
