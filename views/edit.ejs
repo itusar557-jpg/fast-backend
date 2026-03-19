@@ -114,8 +114,8 @@
 <div class="main-wrapper">
     <div class="input-section">
         <h2>Rename</h2>
-        <form action="/edits/<%=filename%>" method="POST">
-            <input type="text" value="<%=filename%>" required maxlength="50" readonly>
+        <form action="/edits/<%=idobj._id%>" method="POST">
+            <input type="text" value="<%=idobj.title%>" required maxlength="50" readonly>
             <input type="text" name="title"  placeholder="New Name..." required maxlength="50">
             <button type="submit" class="btn-save">সেভ করুন</button>
         </form>

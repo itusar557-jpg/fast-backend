@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>নোটের বিস্তারিত - <%= filename %></title>
+    <title>নোটের বিস্তারিত - <%=filename.title%></title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -81,12 +81,12 @@
 <div class="details-wrapper">
     <a href="/" class="back-btn" style="background-color: #cab815; color: #000000;padding: 5px; border-radius: 5px;" >← হোম পেজে ফিরে যান</a>
 
-    <h3><%= filename %></h3>
+    <h3><%=filename.title%></h3>
 
     <hr>
 
     <div class="content-box">
-        <p><%= file %></p>
+        <p><%=filename.discription%></p>
     </div>
 
     <hr>

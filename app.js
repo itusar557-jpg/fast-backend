@@ -6,56 +6,66 @@ const { isUtf8 } = require('buffer');
 const { time } = require('console');
 app.set('view engine', 'ejs')
 app.set(express.static(path.join(__dirname,"public")))
+const mongoose = require('mongoose');
+const { title } = require('process');
+mongoose.connect('mongodb://127.0.0.1:27017/myTextApp')
+const userSchema = mongoose.Schema({
+
+})
+const postSchema = mongoose.Schema({
+  title: String,
+  discription: String,
+  
+})
+const userModiul = mongoose.model('user' , userSchema)
+const postModiul = mongoose.model('post' , postSchema)
 
 app.use(express.json()); // JSON data parse করার জন্য
 app.use(express.urlencoded({ extended: true })); // form data parse করার জন্য
 
-app.get("/", (req , res)=>{
-  fs.readdir('./data',(err,file)=>{
-    res.render('index',{file:file})
-  })
-})
-app.post('/save',(req, res)=>{
+
+app.get("/", async (req , res)=>{
+   let postData = await postModiul.find({})
  
-   const aaj = new Date();
-let tarik = aaj.toLocaleDateString('en-GB').split('/').join('-');
-let somoy = aaj.toLocaleTimeString('en-GB').split(':').join('⁚')
-    fs.writeFile(`./data/${req.body.title} - writeFile - ${tarik} - ${somoy} .txt`,`${req.body.content}`,(err)=>{
   
-    })
+    res.render('index', {file: postData})
+  
+}) 
+
+app.get("/create", async (req , res)=>{
+    res.render('create', )
+  
+})
+app.post('/save', async (req, res)=>{
+ 
+ await postModiul.create({
+    title : req.body.title,
+    discription : req.body.content,
+  })
  
   res.redirect('/')
 })
-app.get('/view/:filename',(req,res)=>{ 
-  fs.readFile(`./data/${req.params.filename}`,'utf-8',(err, file)=>{
-res.render('ditels',{
-  filename:req.params.filename,
-  file:file,
- })
-  }) 
+app.get('/view/:id', async (req,res)=>{ 
+  let ridfile = await postModiul.findById(req.params.id)
+   res.render('ditels',{filename: ridfile})
 })
-app.get('/edit/:filename',(req ,res)=>{
-  res.render('edit' ,{
-    filename:req.params.filename
-  })
+app.get('/edit/:id', async (req ,res)=>{
+  let idobj = await postModiul.findById(req.params.id)
+  res.render('edit' ,{idobj})
+
 
 })
-app.post('/edits/:filename',(req, res)=>{
-   const aaj = new Date();
-let tarik = aaj.toLocaleDateString('en-GB').split('/').join('-');
-let somoy = aaj.toLocaleTimeString('en-GB').split(':').join('⁚') 
-fs.rename(`./data/${req.params.filename}`,`./data/${req.body.title} - Rename -  ${tarik} - ${somoy} .txt`,(err)=>{
-  res.redirect('/')
-})
+app.post('/edits/:id', async (req, res)=>{
+   await postModiul.findByIdAndUpdate(req.params.id , {title: req.body.title})
+ res.redirect('/')
+
   
 })
-app.get('/delete/:filename',(req,res)=>{
-  fs.unlink(`./data/${req.params.filename}`,(err)=>{
-    console.log(req.params.filename);
-    
+app.get('/delete/:id', async (req,res)=>{
+  let id = await postModiul.findByIdAndDelete(req.params.id)
     res.redirect('/')
 
-  })
+ 
 })
 app.get(`/Editfile/:filename`,(req,res)=>{
   fs.readFile(`./data/${req.params.filename}`,'utf-8',(err,file)=>{
@@ -88,7 +98,7 @@ app.get("/Rdd", (req , res)=>{
 
    
 
-    
+     
 })
 
 app.listen(3000)

@@ -124,15 +124,14 @@
     </div>
 
     <div class="list-section">
-        <h3 style="color: #34495e; text-align: center;">আপনার সংরক্ষিত নোট <%=file.length%></h3>
+        <h3 style="color: #34495e; text-align: center;">আপনার সংরক্ষিত নোট 
         
         
-        <% if (file.length > 0) { %>
-            <%let sl = 1%>
-            <% file.forEach(files => { %>
-                <div class="note-card"><%=sl%>
-                    <%sl++%>
-                    <span class="title-text"><%= sl+files %></span>
+     
+           
+                <div class="note-card">
+                    
+                    <span class="title-text"></span>
                     <div class="btn-group">
                         <a href="/view/<%=files  %>" class="action-link read-link">Read</a>
                         <a href="/edit/<%=files  %>" class="action-link edit-link">Rename</a> 
@@ -140,10 +139,9 @@
                         <a href="/delete/<%=files  %>" class="action-link delete-link"  onclick="return confirm('আপনি কি নিশ্চিত যে ফাইলটি ডিলিট করতে চান?')" style="background-color: red; color: black;">Delete</a>
                     </div>
                 </div>
-            <% }); %>
-        <% } else { %>
+            
             <h1 style="text-align: center; color: #888; font-size: 18px; margin-top: 50px;">কোনো ডাটা পাওয়া যায়নি</h1>
-        <% } %>   
+
     
         
     </div>

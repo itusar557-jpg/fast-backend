@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>নোট সেভার - অল ডিভাইস ডিজাইন</title>
+    <title>Tusar4393108666</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -110,26 +110,11 @@
     </style>
 </head>
 <body>
-
+<div>
+    <a href="/create">Create</a>
+</div>
 <div class="main-wrapper">
-    <div class="input-section">
-        <h2>নতুন নোট তৈরি করুন</h2>
-        <form action="/save" method="POST">
-            <input type="text" name="title" placeholder="টাইটেল দিন..." required maxlength="50">
-            <textarea name="content" rows="4" placeholder="বিস্তারিত লিখুন..." required maxlength="5000"></textarea>
-          
-          <a href="/Rdd" style="  display: inline-block;
-            text-decoration: none;
-            color: #3498db;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 20px;
-            transition: color 0.3s;
-            text-align: center;
-            background-color: #cab815; color: #000000;padding: 5px; border-radius: 5px; margin-top: 19px; width: 100%;">Random Text</a>
-                     <button type="submit" class="btn-save">সেভ করুন</button>
-        </form>
-    </div>
+    
 
     <div class="list-section">
         <%let sl = 1%>
@@ -140,12 +125,12 @@
             <% file.forEach(files => { %>
                 <div class="note-card"><%= sl%>
                     <%sl++%>
-                    <span class="title-text"><%= files %></span>
+                    <span class="title-text"><%= files.title %></span>
                     <div class="btn-group">
-                        <a href="/view/<%=files  %>" class="action-link read-link">Read</a>
-                        <a href="/edit/<%=files  %>" class="action-link edit-link">Rename</a> 
-                        <a href="/Editfile/<%=files  %>" class="action-link edit-link">Edit File</a>
-                        <a href="/delete/<%=files  %>" class="action-link delete-link"  onclick="return confirm('আপনি কি নিশ্চিত যে ফাইলটি ডিলিট করতে চান?')" style="background-color: red; color: black;">Delete</a>
+                        <a href="/view/<%=files._id%>" class="action-link read-link">Read</a>
+                        <a href="/edit/<%=files._id%>" class="action-link edit-link">Rename</a> 
+                        <a href="/Editfile/<%=files._id%>" class="action-link edit-link">Edit File</a>
+                        <a href="/delete/<%=files._id %>" class="action-link delete-link"  onclick="return confirm('আপনি কি নিশ্চিত যে ফাইলটি ডিলিট করতে চান?')" style="background-color: red; color: black;">Delete</a>
                     </div>
                 </div>
             <% }); %>
