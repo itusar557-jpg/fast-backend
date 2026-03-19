@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নোটের বিস্তারিত - <%= filename %></title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .details-wrapper {
+            width: 100%;
+            max-width: 750px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-top: 30px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #2980b9;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            border-left: 6px solid #3498db;
+            padding-left: 15px;
+            margin: 0 0 25px 0;
+        }
+
+        /* p ট্যাগ স্টাইল */
+        .content-box p {
+            color: #444;
+            font-size: 17px;
+            line-height: 1.8; /* পড়ার সুবিধার জন্য লাইনের গ্যাপ */
+            text-align: justify;
+            white-space: pre-wrap; /* ফাইলের স্পেস এবং নতুন লাইন ঠিক রাখবে */
+            background: #fdfdfd;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #f0f0f0;
+            margin: 0;
+         
+            word-wrap: break-word;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 30px 0;
+        }
+
+        .footer-info {
+            font-size: 12px;
+            color: #aaa;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="details-wrapper">
+    <a href="/" class="back-btn" style="background-color: #cab815; color: #000000;padding: 5px; border-radius: 5px;" >← হোম পেজে ফিরে যান</a>
+
+    <h3><%= filename %></h3>
+
+    <hr>
+
+    <div class="content-box">
+        <p><%= file %></p>
+    </div>
+
+    <hr>
+    
+    <div class="footer-info">
+        এটি আপনার ব্যক্তিগত স্টাডি নোট হিসেবে সংরক্ষিত।
+    </div>
+</div>
+
+</body>
+</html>
